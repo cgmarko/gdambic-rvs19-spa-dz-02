@@ -108,14 +108,14 @@ int game_of_life::count_neigbours(int i)
 			counter++;
 		}
 	}
-	if (i > 15 && i % 16 != 0)
+	if (i > 16 && (i + 1) % 16 != 0)
 	{
 		if (get_alive(i - 17))
 		{
 			counter++;
 		}
 	}
-	if (i > 15 && (i + 1) % 16 != 0)
+	if (i > 15 && i % 16 != 0)
 	{
 		if (get_alive(i - 15))
 		{
@@ -124,14 +124,14 @@ int game_of_life::count_neigbours(int i)
 	}
 	if (i < 144 && (i + 1) % 16 != 0)
 	{
-		if (get_alive(i + 17))
+		if (get_alive(i + 15))
 		{
 			counter++;
 		}
 	}
-	if (i < 144 && i % 16 != 0)
+	if (i < 142 && i % 16 != 0)
 	{
-		if (get_alive(i + 15))
+		if (get_alive(i + 17))
 		{
 			counter++;
 		}
