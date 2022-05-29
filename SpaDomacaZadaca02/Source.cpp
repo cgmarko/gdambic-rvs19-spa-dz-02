@@ -1,10 +1,25 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <ctime>
+#include "image.h"
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Hello, SFML world!");
+	srand(time(nullptr));
+	game_of_life game;
+
+
+	//music downloaded from: https://www.fesliyanstudios.com/royalty-free-music/download/8-bit-surf/568
+	sf::Music music;
+	if (!music.openFromFile("music.ogg"))
+		return -1; // error
+	music.play();
+	music.setLoop(true);
+
+	sf::RenderWindow window(sf::VideoMode(1600, 1000), "Hello, SFML world!");
+
 	window.setFramerateLimit(60);
-	//Cvijet cvijet(&window);
+	image img(&window);
 
 	while (window.isOpen())
 	{
@@ -16,7 +31,7 @@ int main()
 		}
 
 		window.clear();
-		//cvijet.draw();
+		img.draw(game);
 		window.display();
 	}
 
