@@ -92,7 +92,7 @@ void game_of_life::set_dying(int i, bool b)
 int game_of_life::count_neigbours(int i)
 {
 	int counter = 0;
-	if (i > 0 && i % 16 != 0)
+	if (i % 16 != 0)
 	{
 		if (get_alive(i - 1))
 		{
@@ -100,7 +100,7 @@ int game_of_life::count_neigbours(int i)
 		}
 	}
 
-	if (i < 159 && (i + 1)% 16)
+	if ((i + 1)% 16)
 	{
 		if (get_alive(i + 1))
 		{
