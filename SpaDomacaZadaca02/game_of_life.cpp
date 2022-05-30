@@ -135,14 +135,14 @@ int game_of_life::count_neigbours(int i)
 			counter++;
 		}
 	}
-	if (i < 144 && (i + 1) % 16 != 0)
+	if (i < 144 && i  % 16 != 0)
 	{
 		if (get_alive(i + 15))
 		{
 			counter++;
 		}
 	}
-	if (i < 143 && i % 16 != 0)
+	if (i < 143 && (i + 1) % 16 != 0)
 	{
 		if (get_alive(i + 17))
 		{
