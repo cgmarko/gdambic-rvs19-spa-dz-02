@@ -102,10 +102,10 @@ void image::menu(int num)
 			if (!get_game_started())
 			{
 				text.setFillColor(sf::Color(100, 100, 100));
-				text.setString("Continue Game");
+				text.setString("Continue");
 				window->draw(text);
 			}
-			text.setString("Continue Game");
+			text.setString("Continue");
 			break;
 		case 2:
 			if (get_num()!=4)
@@ -147,7 +147,7 @@ void image::menu(int num)
 		window->draw(text);
 		break;
 	case 1:
-		text.setString("Continue Game");
+		text.setString("Continue");
 		text.setPosition(120 - 20, 700 + 55 * get_num());
 		window->draw(text);
 		break;
