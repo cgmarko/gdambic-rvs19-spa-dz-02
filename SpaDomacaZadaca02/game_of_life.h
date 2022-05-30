@@ -10,6 +10,7 @@ private:
 	vector<bool> dying;
 public:
 	game_of_life();
+	void new_game();
 	bool get_alive(int i);
 	bool get_just_born(int i);
 	bool get_dead(int i);

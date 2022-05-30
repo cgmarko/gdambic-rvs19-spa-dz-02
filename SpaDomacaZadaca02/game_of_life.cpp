@@ -1,7 +1,9 @@
 #include "game_of_life.h"
+#include <ctime>
 
 game_of_life::game_of_life()
 {
+	srand(time(nullptr));
 	for (int i = 0; i < 160; i++)
 	{
 		switch (rand() % 4)
@@ -34,6 +36,17 @@ game_of_life::game_of_life()
 			break;
 		}
 	}
+}
+
+void game_of_life::new_game()
+{
+	srand(time(nullptr));
+	game_of_life new_game;
+	alive = new_game.alive;
+	dead = new_game.dead;
+	just_born = new_game.just_born;
+	dying = new_game.dying;
+
 }
 
 bool game_of_life::get_alive(int i)
@@ -79,7 +92,7 @@ void game_of_life::set_dying(int i, bool b)
 int game_of_life::count_neigbours(int i)
 {
 	int counter = 0;
-	if (i > 0)
+	if (i > 0 && i % 16 != 0)
 	{
 		if (get_alive(i - 1))
 		{
@@ -87,7 +100,7 @@ int game_of_life::count_neigbours(int i)
 		}
 	}
 
-	if (i < 159)
+	if (i < 159 && (i + 1)% 16)
 	{
 		if (get_alive(i + 1))
 		{
@@ -108,14 +121,14 @@ int game_of_life::count_neigbours(int i)
 			counter++;
 		}
 	}
-	if (i > 16 && (i + 1) % 16 != 0)
+	if (i > 16 && i % 16 != 0)
 	{
 		if (get_alive(i - 17))
 		{
 			counter++;
 		}
 	}
-	if (i > 15 && i % 16 != 0)
+	if (i > 15 && (i + 1) % 16 != 0)
 	{
 		if (get_alive(i - 15))
 		{
@@ -264,11 +277,8 @@ void game_of_life::next_generation()
 		}
 
 	}
-
 	alive = next_gen.alive;
 	dead = next_gen.dead;
 	just_born = next_gen.just_born;
 	dying = next_gen.dying;
-
-
 }
