@@ -2,9 +2,61 @@
 #include <SFML/Graphics.hpp>
 #include <stdio.h>
 #include <math.h>
+#include <iostream>
 #define PI 3.14159265
 
 using namespace std;
+
+sf::ConvexShape Star(double t, int outerRadius, int innerRadius, sf::Color color, int points, int xCenter, int yCenter) {
+	sf::ConvexShape star;
+	star.setPointCount(points*2);
+	star.setFillColor(color);
+	int distance;
+	for (int i = 0; i < points*2; i++)
+	{
+		if (i%2 == 0)
+		{
+			distance = outerRadius;
+		}
+		else
+		{
+			distance = innerRadius;
+		}
+
+		star.setPoint(i, sf::Vector2f(xCenter + distance*cos(2*PI*i/points/2 + t * PI * 2) - distance*sin(2*PI*i/points/2 + t*2*PI) , yCenter + distance * cos(2 * PI * i / points / 2 + t*PI *2) + distance * sin(2 * PI * i / points / 2 + t * PI * 2) + 40 * sin(PI * t)));
+
+
+	}
+
+	return star;
+}
+
+sf::CircleShape Bubble(double t, int maxRadius, sf::Color color, int xPosition, int yPosition, double frequency, int xVelocity, int yVelocity, double phase)
+{
+	sf::CircleShape bubble;
+	t = t + phase;
+	maxRadius = maxRadius / 2;
+	double t_ = 2 *  (t - (int)t) ;
+		if (t_ <= 1)
+		{
+			bubble.setFillColor(sf::Color(color));
+			bubble.setPosition(xPosition - maxRadius * t_ + t_ * xVelocity, yPosition - maxRadius * t_ + yVelocity);
+			bubble.setRadius(maxRadius * t_);
+			 
+
+		}
+		else
+		{
+			bubble.setPosition(xPosition - 2*maxRadius * (t_ - 1) + t_ * xVelocity, yPosition - 2*maxRadius * (t_ - 1) + t_ * yVelocity);
+			bubble.setRadius(2*maxRadius * (t_ - 1));
+			bubble.setFillColor(sf::Color::Transparent);
+			bubble.setOutlineColor(sf::Color(color));
+			bubble.setOutlineThickness(maxRadius - maxRadius * (t_ - 1));
+		}
+		
+	
+	return bubble;
+}
 
 
 image::image(sf::RenderWindow* window)
@@ -43,6 +95,23 @@ void image::menu(int num)
 	double f3; 
 	double f4;
 	double f5;
+	sf::Color front;
+	sf::Color background;
+	if (game_started)
+	{
+		front = sf::Color::White;
+		background = sf::Color::Black;
+	}
+	else
+	{
+		front = sf::Color::Black;
+		background = sf::Color::White;
+	}
+	sf::RectangleShape menuBackground;
+	menuBackground.setFillColor(background);
+	menuBackground.setSize(sf::Vector2f(1600, 1000));
+	window->draw(menuBackground);
+
 
 	sf::Font font;
 	if (!font.loadFromFile("OpenSans.ttf"))
@@ -52,38 +121,13 @@ void image::menu(int num)
 	sf::Text text;
 	
 	
-	sf::RectangleShape menuBackground;
-	menuBackground.setSize(sf::Vector2f(1600, 1000));
-	menuBackground.setPosition(0, 0);
-	menuBackground.setFillColor(sf::Color(255, 87, 51));
-	window->draw(menuBackground);
+	
 	int c = 0;
 
 	
-	menuBackground.setSize(sf::Vector2f(1600, 1000));
-	menuBackground.setPosition(0, 0);
-	menuBackground.setFillColor(sf::Color(255, 87, 51));
-	window->draw(menuBackground);
-	
-
-	sf::ConvexShape Sunshine;
-	Sunshine.setPointCount(4);
-	Sunshine.setFillColor(sf::Color(r * f1 * game_started, g * f1 * game_started, b * f1 * game_started));
-	for (int i = 0; i < 16; i++)
-	{
-		f3 = cos(PI /  8* i + 2*t*game_started); //rotation around x-coordinate
-		f4 = sin(PI / 8 * i + 2*t*game_started); //rotation around y-coordinate
-		Sunshine.setPoint(0, sf::Vector2f( 800, 500));
-		Sunshine.setPoint(1, sf::Vector2f((900 - 800) * f3 - (450 - 500) * f4 + 800, (900 - 800) * f4 + (450 - 500) * f3 + 500));
-		Sunshine.setPoint(2, sf::Vector2f((1000-800)*f3 + 800, (1000-800) * f4 + 500));
-		Sunshine.setPoint(3, sf::Vector2f((900 - 800) * f3 - (550 - 500) * f4 + 800, (900 - 800) * f4 + (550 - 500) * f3 + 500));
-		window->draw(Sunshine);
-
-	}
-	
 	text.setFont(font);
 	text.setCharacterSize(40);
-	text.setFillColor(sf::Color(0, 0, 0));
+	text.setFillColor(sf::Color(front));
 	for (int i = 0; i < 4; i++)
 	{
 		text.setPosition(120, 700 + 55 * i);
@@ -108,12 +152,12 @@ void image::menu(int num)
 		case 2:
 			if (get_num()!=4)
 			{
-				text.setFillColor(sf::Color(0, 0, 0));
+				text.setFillColor(sf::Color(front));
 				text.setString("Options");
 			}
 			if (get_num() == 4)
 			{
-				text.setFillColor(sf::Color(0, 0, 0));
+				text.setFillColor(sf::Color(front));
 				if (get_moving())
 				{
 					text.setString("Dynamic");
@@ -127,7 +171,7 @@ void image::menu(int num)
 			}
 			break;
 		case 3:
-			text.setFillColor(sf::Color(0, 0, 0));
+			text.setFillColor(sf::Color(front));
 			text.setString("Quit");
 			break;
 		default:
@@ -167,6 +211,38 @@ void image::menu(int num)
 	default:
 		break;
 	}
+	
+	if (game_started)
+	{
+		sf::Color bubbleColor;
+		for (int i = 0; i < 25; i++)
+		{
+			switch (i%3)
+			{
+			case 0:
+				bubbleColor = sf::Color::Yellow;
+				break;
+			case 1:
+				bubbleColor = sf::Color::Cyan;
+				break;
+			case 2:
+				bubbleColor = sf::Color::Magenta;
+				break;
+			default:
+				break;
+			}
+			window->draw(Bubble(t, 50, sf::Color(bubbleColor), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 25; i++)
+		{
+			window->draw(Bubble(t, 50, sf::Color(front), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
+		}
+	}
+	
+	window->draw(Star(t, 100, 50, sf::Color(front), 5, 800, 500));
 }
 
 void image::set_num(int n)
