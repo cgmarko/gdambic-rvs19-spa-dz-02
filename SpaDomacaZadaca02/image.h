@@ -8,18 +8,19 @@ class image
 private:
     sf::RenderWindow* window;
     sf::Clock clock;
-    double r = rand() % 256;
-    double g = rand() % 256;
-    double b = rand() % 256;
+    double r;
+    double g;
+    double b;
     bool moving;
     bool game_started;
     int num;
 
 public:
     image(sf::RenderWindow* window);
-    void set_red();
-    void set_green();
-    void set_blue();
+    void set_red(double red);
+    void set_green(double green);
+    void set_blue(double blue);
+    void random_color();
     bool get_game_started();
     void set_game_started(bool b);
     void menu(int num);

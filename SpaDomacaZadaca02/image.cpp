@@ -64,17 +64,87 @@ image::image(sf::RenderWindow* window)
 	this->window = window;
 }
 
-void image::set_red()
+void image::set_red(double red)
 {
-	r = rand() % 256;
+	r = red;
 }
-void image::set_green()
+void image::set_green(double green)
 {
-	g = rand() % 256;
+	g = green;
 }
-void image::set_blue()
+void image::set_blue(double blue)
 {
-	b = rand() % 256;
+	b = blue;
+}
+
+void image::random_color()
+{
+	switch (rand() % 12)
+	{
+	case 0:
+		set_red(255);
+		set_green(0);
+		set_blue(0);
+		break;
+	case 1:
+		set_red(255);
+		set_green(128);
+		set_blue(0);
+		break;
+	case 2:
+		set_red(255);
+		set_green(255);
+		set_blue(0);
+		break;
+	case 3:
+		set_red(128);
+		set_green(255);
+		set_blue(0);
+		break;
+	case 4:
+		set_red(0);
+		set_green(255);
+		set_blue(0);
+		break;
+	case 5:
+		set_red(0);
+		set_green(255);
+		set_blue(128);
+		break;
+	case 6:
+		set_red(0);
+		set_green(255);
+		set_blue(255);
+		break;
+	case 7:
+		set_red(0);
+		set_green(128);
+		set_blue(255);
+		break;
+	case 8:
+		set_red(0);
+		set_green(0);
+		set_blue(255);
+		break;
+	case 9:
+		set_red(127);
+		set_green(0);
+		set_blue(255);
+		break;
+	case 10:
+		set_red(255);
+		set_green(0);
+		set_blue(255);
+		break;
+	case 11:
+		set_red(255);
+		set_green(0);
+		set_blue(127);
+		break;
+
+	default:
+		break;
+	}
 }
 
 bool image::get_game_started()
@@ -241,8 +311,15 @@ void image::menu(int num)
 			window->draw(Bubble(t, 50, sf::Color(front), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
 		}
 	}
+	if (game_started)
+	{
+		window->draw(Star(t, 100, 50, sf::Color(r + (255-r)*abs(sin(PI / 2 * t)), g + (255 - g) * abs(sin(PI / 2 * t)), b + (255 - b) * abs(sin(PI / 2 * t))), 5, 800, 500));
+	}
+	else
+	{
+		window->draw(Star(t, 100, 50, sf::Color(front), 5, 800, 500));
+	}
 	
-	window->draw(Star(t, 100, 50, sf::Color(front), 5, 800, 500));
 }
 
 void image::set_num(int n)
@@ -603,9 +680,7 @@ void image::draw(game_of_life& game)
 
 		if (clock.getElapsedTime().asSeconds() >= 2)
 		{
-			set_red();
-			set_blue();
-			set_green();
+			random_color();
 			game.next_generation();
 			clock.restart();
 		}

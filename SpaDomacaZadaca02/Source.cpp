@@ -22,6 +22,7 @@ int main()
 	img.set_num(0);
 	img.set_moving(true);
 	img.set_game_started(false);
+	img.random_color();
 
 	while (window.isOpen())
 	{
