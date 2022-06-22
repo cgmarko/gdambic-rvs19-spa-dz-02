@@ -183,6 +183,46 @@ void image::menu(int num)
 	window->draw(menuBackground);
 
 
+	if (game_started)
+	{
+		sf::Color bubbleColor;
+		for (int i = 0; i < 25; i++)
+		{
+			switch (i % 3)
+			{
+			case 0:
+				bubbleColor = sf::Color::Yellow;
+				break;
+			case 1:
+				bubbleColor = sf::Color::Cyan;
+				break;
+			case 2:
+				bubbleColor = sf::Color::Magenta;
+				break;
+			default:
+				break;
+			}
+			window->draw(Bubble(t, 50, sf::Color(bubbleColor), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 25; i++)
+		{
+			window->draw(Bubble(t, 50, sf::Color(front), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
+		}
+	}
+	if (game_started)
+	{
+		window->draw(Star(t, 100, 50, sf::Color(r + (255 - r) * abs(sin(PI / 2 * t)), g + (255 - g) * abs(sin(PI / 2 * t)), b + (255 - b) * abs(sin(PI / 2 * t))), 5, 800, 500));
+	}
+	else
+	{
+		window->draw(Star(t, 100, 50, sf::Color(front), 5, 800, 500));
+	}
+
+
+
 	sf::Font font;
 	if (!font.loadFromFile("OpenSans.ttf"))
 	{
@@ -282,43 +322,6 @@ void image::menu(int num)
 		break;
 	}
 	
-	if (game_started)
-	{
-		sf::Color bubbleColor;
-		for (int i = 0; i < 25; i++)
-		{
-			switch (i%3)
-			{
-			case 0:
-				bubbleColor = sf::Color::Yellow;
-				break;
-			case 1:
-				bubbleColor = sf::Color::Cyan;
-				break;
-			case 2:
-				bubbleColor = sf::Color::Magenta;
-				break;
-			default:
-				break;
-			}
-			window->draw(Bubble(t, 50, sf::Color(bubbleColor), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
-		}
-	}
-	else
-	{
-		for (int i = 0; i < 25; i++)
-		{
-			window->draw(Bubble(t, 50, sf::Color(front), 800, 500, 0.5, -350, 100 * sin(t + i), i / 10.0));
-		}
-	}
-	if (game_started)
-	{
-		window->draw(Star(t, 100, 50, sf::Color(r + (255-r)*abs(sin(PI / 2 * t)), g + (255 - g) * abs(sin(PI / 2 * t)), b + (255 - b) * abs(sin(PI / 2 * t))), 5, 800, 500));
-	}
-	else
-	{
-		window->draw(Star(t, 100, 50, sf::Color(front), 5, 800, 500));
-	}
 	
 }
 

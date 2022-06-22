@@ -26,8 +26,8 @@
 ////////////////////////////////////////////////////////////
 template <typename T>
 inline Vector2<T>::Vector2() :
-x(0),
-y(0)
+    x(0),
+    y(0)
 {
 
 }
@@ -36,8 +36,8 @@ y(0)
 ////////////////////////////////////////////////////////////
 template <typename T>
 inline Vector2<T>::Vector2(T X, T Y) :
-x(X),
-y(Y)
+    x(X),
+    y(Y)
 {
 
 }
@@ -47,8 +47,8 @@ y(Y)
 template <typename T>
 template <typename U>
 inline Vector2<T>::Vector2(const Vector2<U>& vector) :
-x(static_cast<T>(vector.x)),
-y(static_cast<T>(vector.y))
+    x(static_cast<T>(vector.x)),
+    y(static_cast<T>(vector.y))
 {
 }
 
